@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .timeline-container-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .timeline-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+        }
+
+        .timeline-content-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            padding: 0 40px;
+        }
+
+        .timeline-bar::before {
+            content: '';
+            position: absolute;
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background-color: #ccc;
+        }
+
+        .timeline-year {
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-year.active {
+            border-color: #c4a77d;
+            background: #c4a77d;
+        }
+
+        .timeline-year-label {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+
+        .timeline-nav-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+        }
+
+        .timeline-content-section {
+            display: flex;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .timeline-image-container {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .timeline-image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .timeline-text-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .timeline-text-content h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .timeline-text-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .timeline-read-more {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #c4a77d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container-wrapper">
+        <h1 class="timeline-title">Our Artista History</h1>
+        
+        <div class="timeline-content-wrapper">
+            <div class="timeline-bar">
+                <button class="timeline-nav-button timeline-prev-btn">❮</button>
+                <div class="timeline-year active" data-year="1992"><span class="timeline-year-label">1992</span></div>
+                <div class="timeline-year" data-year="1994"><span class="timeline-year-label">1994</span></div>
+                <div class="timeline-year" data-year="1995"><span class="timeline-year-label">1995</span></div>
+                <div class="timeline-year" data-year="2000"><span class="timeline-year-label">2000</span></div>
+                <div class="timeline-year" data-year="2008"><span class="timeline-year-label">2008</span></div>
+                <div class="timeline-year" data-year="2012"><span class="timeline-year-label">2012</span></div>
+                <button class="timeline-nav-button timeline-next-btn">❯</button>
+            </div>
+        </div>
+
+        <div class="timeline-content-section">
+            <div class="timeline-image-container">
+                <img src="./random1.jpg" alt="Historical image" id="timelineImage">
+            </div>
+            <div class="timeline-text-content">
+                <h2 id="timelineTitle">The Great Beginning</h2>
+                <p id="timelineText">Lorem ipsum has been the industry standard dummy text ever since the 1500s when unknown printer took a galley of type and scrambled it to make type specimen book. has survived not only five centuries but also the leap into electronic typesetting, remaining specimen book has essentially unchanged...</p>
+                <a href="#" class="timeline-read-more">READ MORE</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const timelineData = {
+            '1992': {
+                title: 'The Great Beginning',
+                image: './random1.jpg',
+                text: 'Lorem ipsum has been the industry standard dummy text ever since the 1500s when unknown printer took a galley of type and scrambled it to make type specimen book.'
+            },
+            '1994': {
+                title: 'Innovation Era',
+                image: '/api/placeholder/600/400',
+                text: 'Our company reached new heights with groundbreaking innovations and expansions into new markets.'
+            },
+            '1995': {
+                title: 'Global Expansion',
+                image: '/api/placeholder/600/400',
+                text: 'We expanded our operations globally, reaching new markets and establishing international partnerships.'
+            },
+            '2000': {
+                title: 'Millennium Achievement',
+                image: '/api/placeholder/600/400',
+                text: 'The turn of the century marked a significant milestone in our journey with remarkable achievements.'
+            },
+            '2008': {
+                title: 'Digital Revolution',
+                image: '/api/placeholder/600/400',
+                text: 'We embraced the digital age with new technologies and modern solutions.'
+            },
+            '2012': {
+                title: 'Future Forward',
+                image: '/api/placeholder/600/400',
+                text: 'Setting new standards and preparing for the future with innovative approaches.'
+            }
+        };
+
+        const timelineYears = document.querySelectorAll('.timeline-year');
+        const prevBtn = document.querySelector('.timeline-prev-btn');
+        const nextBtn = document.querySelector('.timeline-next-btn');
+        const timelineImage = document.getElementById('timelineImage');
+        const timelineTitle = document.getElementById('timelineTitle');
+        const timelineText = document.getElementById('timelineText');
+
+        function updateTimelineContent(year) {
+            const data = timelineData[year];
+            timelineImage.src = data.image;
+            timelineTitle.textContent = data.title;
+            timelineText.textContent = data.text;
+        }
+
+        function setActiveTimelineYear(yearElement) {
+            timelineYears.forEach(y => y.classList.remove('active'));
+            yearElement.classList.add('active');
+            updateTimelineContent(yearElement.dataset.year);
+        }
+
+        timelineYears.forEach(year => {
+            year.addEventListener('click', () => setActiveTimelineYear(year));
+        });
+
+        function getActiveTimelineYearIndex() {
+            return Array.from(timelineYears).findIndex(year => year.classList.contains('active'));
+        }
+
+        prevBtn.addEventListener('click', () => {
+            const currentIndex = getActiveTimelineYearIndex();
+            if (currentIndex > 0) {
+                setActiveTimelineYear(timelineYears[currentIndex - 1]);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const currentIndex = getActiveTimelineYearIndex();
+            if (currentIndex < timelineYears.length - 1) {
+                setActiveTimelineYear(timelineYears[currentIndex + 1]);
+            }
+        });
+    </script>
+</body>
+</html>
